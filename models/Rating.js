@@ -16,6 +16,9 @@ const ratingSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product'
     }
+},
+{
+    timestamps: true
 });
 
 const Rating = mongoose.model('Rating', ratingSchema);
