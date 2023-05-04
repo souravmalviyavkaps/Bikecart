@@ -3,12 +3,12 @@ const app = express();
 const db = require('./config/mongoose');
 const port = 8001;
 
+app.use(express.urlencoded({extended: false}));
 
-app.get('/', (req, res)=>{
-    res.send("Hello")
-})
+app.use("/", require('./routes'));
+
 
 app.listen(port, (err)=>{
     if(err){ console.log("Error in starting server : ", err); return; }
-    console.log("Server running at http://localhost:", port);
+    console.log("Server running at http://localhost:"+ port);
 })
