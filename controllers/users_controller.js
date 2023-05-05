@@ -4,16 +4,21 @@ const User = require('../models/user');
 module.exports.create = async (req, res)=>{
 
     try {
-        let user = await User.find({email: req.body.email});
+        let user = await User.findOne({email: req.body.email});
+        // console.log(user);
         if(user){
             return res.status(200).json({
                 message: "User with same email already exists"
             });
 
         }else{
-            if(req.body.pass == req.body.confirm_pass){
+            if(req.body.password == req.body.confirm_password){
                 
                 await User.create(req.body);
+
+                return res.status(200).json({
+                    message: "User Registration successful !!"
+                })
 
             }else{
                 console.log("Password and confirm password does not match");
@@ -33,10 +38,9 @@ module.exports.create = async (req, res)=>{
 
 module.exports.createSession = async function(req, res){
     try {
-        let user = await User.find({email: req.body.email});
+        let user = await User.findOne({email: req.body.email});
         if(user){
             if(user.password == req.body.password){
-                
                 
                 res.status(200).json({
                     message: "Successfully logged In"
