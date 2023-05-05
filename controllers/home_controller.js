@@ -1,3 +1,5 @@
+const Product = require('../models/product');
+
 module.exports.home = async (req, res)=>{
     try {
         
@@ -7,8 +9,10 @@ module.exports.home = async (req, res)=>{
             products
         })
     } catch (error) {
+        console.log("Error while sending home data : ", error);
         res.status(500).json({
             message: "Internal server error"
         })
     }
 }
+

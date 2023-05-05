@@ -13,6 +13,9 @@ const productSchmea = new mongoose.Schema({
         type: String,
         required: true
     },
+    highlights: {
+        type: String
+    },
     price: {
         type: Number,
         required: true
