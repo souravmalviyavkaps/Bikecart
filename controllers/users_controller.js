@@ -1,7 +1,7 @@
-const User = require('../models/user');
+import User from '../models/user.js';
 
 
-module.exports.create = async (req, res)=>{
+export const create = async (req, res)=>{
 
     try {
         let user = await User.findOne({email: req.body.email});
@@ -36,7 +36,7 @@ module.exports.create = async (req, res)=>{
     }
 }
 
-module.exports.createSession = async function(req, res){
+export const createSession = async function(req, res){
     try {
         let user = await User.findOne({email: req.body.email});
         if(user){

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 mongoose.connect("mongodb+srv://souravmalviya:souravmalviya11@cluster0.hbdeq0e.mongodb.net/bikecart");
 
@@ -10,4 +10,4 @@ db.once('open', ()=>{
     console.log("Connection to DB successful");
 })
 
-module.exports = db;
+export default db;

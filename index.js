@@ -1,11 +1,12 @@
-const express = require('express');
+import express from 'express';
 const app = express();
-const db = require('./config/mongoose');
+import db from './config/mongoose.js';
+import routes from './routes/index.js';
 const port = 8001;
 
 app.use(express.urlencoded({extended: false}));
 
-app.use("/", require('./routes'));
+app.use("/", routes);
 
 
 app.listen(port, (err)=>{

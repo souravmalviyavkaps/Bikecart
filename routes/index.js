@@ -1,11 +1,15 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const homeController = require('../controllers/home_controller');
+import {home} from '../controllers/home_controller.js';
+import productRoutes from "./productRoutes.js";
+import userRoutes from "./userRoutes.js";
+import ratingRoutes from "./ratingRoutes.js";
+
+router.get("/", home);
+
+router.use('/users', userRoutes);
+router.use("/products", productRoutes);
+router.use("/rating", ratingRoutes);
 
 
-router.get("/", homeController.home);
-router.use('/users', require('./users'));
-router.use("/products", require('./products'));
-
-
-module.exports = router;
+export default router;

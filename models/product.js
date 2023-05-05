@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const productSchmea = new mongoose.Schema({
+const productSchmea = mongoose.Schema({
     img: {
         type: String,
         required: true
@@ -37,4 +37,4 @@ const productSchmea = new mongoose.Schema({
 
 const Product = mongoose.model('Product', productSchmea);
 
-module.exports = Product;
+export default Product;

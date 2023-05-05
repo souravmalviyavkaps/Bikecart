@@ -1,6 +1,6 @@
-const Product = require('../models/product');
+import Product from '../models/product.js';
 
-module.exports.home = async (req, res)=>{
+export const home = async function(req, res){
     try {
         
         let products = await Product.find({});
@@ -14,5 +14,5 @@ module.exports.home = async (req, res)=>{
             message: "Internal server error"
         })
     }
-}
+};
 
