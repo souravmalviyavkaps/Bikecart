@@ -1,5 +1,8 @@
 import User from '../models/user.js';
-
+import jwt from 'jsonwebtoken';
+import env from '../config/environment.js'
+import bcrypt from 'bcryptjs';
+import {auth} from '../middleware/auth.js'
 
 export const create = async (req, res)=>{
 
@@ -43,12 +46,13 @@ export const createSession = async function(req, res){
             if(user.password == req.body.password){
                 
                 res.status(200).json({
-                    message: "Successfully logged In"
+                    message: "Successfully logged In",
+                    token: jwt.sign(user.toJSON(), env.jwt_secret, {expiresIn: '500s'})
                 });
             }
         }else{
-            return res.status(200).json({
-                message: "User does not exist !!"
+            return res.status(422).json({
+                message: "You have entered invalid username or password !!"
             })
         }
     

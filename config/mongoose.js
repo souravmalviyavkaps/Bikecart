@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import env from './environment.js';
 
-mongoose.connect("mongodb+srv://souravmalviya:souravmalviya11@cluster0.hbdeq0e.mongodb.net/bikecart");
+mongoose.connect("mongodb+srv://souravmalviya:souravmalviya11@cluster0.hbdeq0e.mongodb.net/"+env.db);
 
 const db = mongoose.connection;
 

@@ -1,15 +1,17 @@
 import express from 'express';
+import env from './config/environment.js';
 const app = express();
 import db from './config/mongoose.js';
 import routes from './routes/index.js';
-const port = 8001;
+import passport from 'passport';
+// import passportJWT from './config/passport-jwt-strategy.js';
 
 app.use(express.urlencoded({extended: false}));
 
 app.use("/", routes);
 
 
-app.listen(port, (err)=>{
+app.listen(env.port, (err)=>{
     if(err){ console.log("Error in starting server : ", err); return; }
-    console.log("Server running at http://localhost:"+ port);
+    console.log("Server running at http://localhost:"+ env.port);
 })
