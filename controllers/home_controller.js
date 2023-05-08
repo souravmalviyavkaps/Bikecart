@@ -6,11 +6,14 @@ export const home = async function(req, res){
         let products = await Product.find({});
     
         res.status(200).json({
-            products
+            success: true,
+            message: "Products fetched successfully !!",
+            data: products
         })
     } catch (error) {
         console.log("Error while sending home data : ", error);
         res.status(500).json({
+            success: false,
             message: "Internal server error"
         })
     }

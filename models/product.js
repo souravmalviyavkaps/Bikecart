@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const productSchmea = mongoose.Schema({
+const productSchema = mongoose.Schema({
     img: {
         type: String,
         required: true
@@ -35,6 +35,6 @@ const productSchmea = mongoose.Schema({
 }
 );
 
-const Product = mongoose.model('Product', productSchmea);
+const Product = mongoose.model('Product', productSchema);
 
 export default Product;

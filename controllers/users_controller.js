@@ -2,7 +2,6 @@ import User from '../models/user.js';
 import jwt from 'jsonwebtoken';
 import env from '../config/environment.js'
 import bcrypt from 'bcryptjs';
-import {auth} from '../middleware/auth.js'
 
 export const create = async (req, res)=>{
 
@@ -39,16 +38,27 @@ export const create = async (req, res)=>{
     }
 }
 
+
+
 export const createSession = async function(req, res){
     try {
         let user = await User.findOne({email: req.body.email});
         if(user){
-            if(user.password == req.body.password){
-                
+
+            const match = await bcrypt.compare(req.body.password, user.password);
+            if(match){
                 res.status(200).json({
                     message: "Successfully logged In",
-                    token: jwt.sign(user.toJSON(), env.jwt_secret, {expiresIn: '500s'})
+                    token: jwt.sign(
+                        {user: {name: user.fname+" "+user.lname, email: user.email, phone: user.phone}},
+                        env.jwt_secret,
+                        {expiresIn: '500s'}
+                    )
                 });
+            }else{
+                return res.status(400).json({
+                    message: "You have entered invalid username or password !!"
+                })
             }
         }else{
             return res.status(422).json({
@@ -62,4 +72,23 @@ export const createSession = async function(req, res){
             message: "Internal server error"
         })    
     }
+}
+
+
+export const userProfile = async (req, res)=>{
+    // console.log(req.headers.authorization);
+    let token = (req.headers.authorization).replace("Bearer ", "");
+    jwt.verify(token, env.jwt_secret, (err, authData)=>{
+        if(err){
+            console.log(err)
+            return res.status(401).json({
+                message: "Invalid token"
+            })
+        }else{
+            return res.status(200).json({
+                message: "Token validated successfully !!",
+                authData
+            })
+        }
+    })
 }
