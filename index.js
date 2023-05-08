@@ -4,8 +4,10 @@ const app = express();
 import db from './config/mongoose.js';
 import routes from './routes/index.js';
 import passport from 'passport';
-// import passportJWT from './config/passport-jwt-strategy.js';
+import cors from 'cors';
 
+// import passportJWT from './config/passport-jwt-strategy.js';
+app.use(cors());
 app.use(express.urlencoded({extended: false}));
 
 app.use("/", routes);
