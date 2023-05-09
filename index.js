@@ -1,19 +1,21 @@
-import express from 'express';
-import env from './config/environment.js';
-const app = express();
-import db from './config/mongoose.js';
-import routes from './routes/index.js';
-import passport from 'passport';
-import cors from 'cors';
+import express from 'express'
+import env from './config/environment.js'
+const app = express()
+import db from './config/mongoose.js'
+import routes from './routes/index.js'
+import cors from 'cors'
 
 // import passportJWT from './config/passport-jwt-strategy.js';
-app.use(cors());
-app.use(express.urlencoded({extended: false}));
+app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-app.use("/", routes);
+app.use('/', routes)
 
-
-app.listen(env.port, (err)=>{
-    if(err){ console.log("Error in starting server : ", err); return; }
-    console.log("Server running at http://localhost:"+ env.port);
+app.listen(env.port, err => {
+  if (err) {
+    console.log('Error in starting server : ', err)
+    return
+  }
+  console.log('Server running at http://localhost:' + env.port)
 })
