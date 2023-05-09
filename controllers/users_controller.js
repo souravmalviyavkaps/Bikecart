@@ -19,7 +19,8 @@ export const create = async (req, res)=>{
                 await User.create(req.body);
 
                 return res.status(200).json({
-                    message: "User Registration successful !!"
+                    message: "User Registration successful !!",
+                    success: true
                 })
 
             }else{
