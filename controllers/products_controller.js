@@ -67,12 +67,7 @@ export const rateProduct = async (req, res)=>{
             sumRatings += rating.stars;
         })
         console.log(sumRatings)
-        let avgRating;
-        if(ratings.length <= 5){
-             avgRating = sumRatings / 5;
-        }else{
-            avgRating = sumRatings / ratings.length;
-        }
+        let avgRating = parseInt(sumRatings / ratings.length);
         product.stars = avgRating;
         product.save();
 

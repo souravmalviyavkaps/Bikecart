@@ -10,5 +10,4 @@ router.post('/rate-product', rateProduct);
 router.delete('/delete-product/:id', deleteProduct);
 
 
-
 export default router;
