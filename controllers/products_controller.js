@@ -1,8 +1,6 @@
 import Product from '../models/product.js'
 import Rating from '../models/rating.js'
 
-console.log('Product model : ', Product)
-
 export const fetchProductById = async (req, res) => {
   try {
     const productId = req.params.id;
