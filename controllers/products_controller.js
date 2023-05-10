@@ -1,9 +1,12 @@
 import Product from '../models/product.js'
 import Rating from '../models/rating.js'
 
+console.log('Product model : ', Product)
+
 export const fetchProductById = async (req, res) => {
   try {
-    const productId = req.params.id
+    const productId = req.params.id;
+
     const product = await Product.findById(productId).populate({
       path: 'ratings',
       populate: { 
@@ -47,16 +50,19 @@ export const rateProduct = async (req, res) => {
     // console.log(req.body)
     let productId = req.body.productid;
 
-    //if user already rated the same product
+    // if user already rated the same product
     let rating = await Rating.find({user: req.body.userid, product: productId});
-    if(rating){
+
+    console.log(rating);
+
+    if(rating.length){
       return res.status(200).json({
         message: "You have already rated this product",
         success: false
       })
     }
 
-    rating = await Rating.create({
+      rating = await Rating.create({
       user: req.body.userid,
       stars: req.body.stars,
       review: req.body.review,
@@ -68,7 +74,6 @@ export const rateProduct = async (req, res) => {
 
 
     product.ratings.push(rating._id)
-    // product.save();
 
     //change the product avg rating as well
 
@@ -76,15 +81,17 @@ export const rateProduct = async (req, res) => {
     // console.log(ratings);
 
     let sumRatings = 0
+
     ratings.map(rating => {
       sumRatings += rating.stars
     })
     console.log(sumRatings)
-    let avgRating = Math.round(sumRatings / ratings.length)
+    let avgRating = Math.round(sumRatings / ratings.length);
     product.stars = avgRating
     product.save()
 
     return res.status(200).json({
+      data: {avgRating},
       message: 'Product rated successfully !!',
       success: true
     })

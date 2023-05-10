@@ -1,6 +1,7 @@
 import Product from '../models/product.js';
 
 export const home = async function(req, res){
+    
     try {
         
         let products = await Product.find({});
