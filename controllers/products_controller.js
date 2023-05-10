@@ -6,8 +6,10 @@ export const fetchProductById = async (req, res) => {
     const productId = req.params.id
     const product = await Product.findById(productId).populate({
       path: 'ratings',
-      populate: { path: 'user' },
-    })
+      populate: { 
+        path: 'user' 
+      },
+    });
 
     return res.status(200).json({
       success: true,
@@ -45,7 +47,16 @@ export const rateProduct = async (req, res) => {
     // console.log(req.body)
     let productId = req.body.productid;
 
-    let rating = await Rating.create({
+    //if user already rated the same product
+    let rating = await Rating.find({user: req.body.userid, product: productId});
+    if(rating){
+      return res.status(200).json({
+        message: "You have already rated this product",
+        success: false
+      })
+    }
+
+    rating = await Rating.create({
       user: req.body.userid,
       stars: req.body.stars,
       review: req.body.review,
@@ -53,8 +64,9 @@ export const rateProduct = async (req, res) => {
     })
 
     //push this rating to products rating array
-    let product = await Product.findById(productId)
-    console.log(product)
+    let product = await Product.findById(productId).populate('ratings');
+
+
     product.ratings.push(rating._id)
     // product.save();
 
@@ -68,14 +80,13 @@ export const rateProduct = async (req, res) => {
       sumRatings += rating.stars
     })
     console.log(sumRatings)
-    let avgRating = parseInt(Math.round(sumRatings / ratings.length))
+    let avgRating = Math.round(sumRatings / ratings.length)
     product.stars = avgRating
     product.save()
 
     return res.status(200).json({
-      data: { avgRating },
       message: 'Product rated successfully !!',
-      success: true,
+      success: true
     })
   } catch (err) {
     console.log('Error while rating product : ', err)

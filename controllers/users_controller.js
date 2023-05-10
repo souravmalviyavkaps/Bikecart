@@ -47,14 +47,19 @@ export const createSession = async function(req, res){
         if(user){
 
             const match = await bcrypt.compare(req.body.password, user.password);
+            const token =  jwt.sign(
+                {user: {name: user.fname+" "+user.lname, email: user.email, phone: user.phone}},
+                env.jwt_secret,
+                {expiresIn: '500s'}
+            )
             if(match){
                 res.status(200).json({
                     message: "Successfully logged In",
-                    token: jwt.sign(
-                        {user: {name: user.fname+" "+user.lname, email: user.email, phone: user.phone}},
-                        env.jwt_secret,
-                        {expiresIn: '500s'}
-                    )
+                    success: true,
+                    data: {
+                        userId: user._id,
+                        token
+                    }
                 });
             }else{
                 return res.status(400).json({
