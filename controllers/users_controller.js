@@ -34,7 +34,7 @@ export const create = async (req, res)=>{
     }catch (error) {
         console.log('Error while creating user : ', error); 
         return res.status(500).json({
-            message: "Internal server error"
+            message: "Internal server error"+error.message
         })
     }
 }
@@ -62,10 +62,16 @@ export const createSession = async function(req, res){
                     }
                 });
             }else{
-                throw new Error ("You have entered invalid username or password !!")
+                return res.status(200).json({
+                    success: false,
+                    message: "You have entered invalid username or password !!"
+                })
             }
         }else{
-            throw new Error("You have entered invalid username or password !!")
+            return res.status(200).json({
+                success: false,
+                message: "You have entered invalid username or password !!"
+            })
         }
     
     } catch (error) {

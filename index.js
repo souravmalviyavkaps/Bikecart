@@ -1,14 +1,15 @@
 import express from 'express'
 import env from './config/environment.js'
-const app = express()
+const app = express();
 import db from './config/mongoose.js'
 import routes from './routes/index.js'
-import cors from 'cors'
+import cors from 'cors';
+import bodyParser from 'body-parser';
 
 // import passportJWT from './config/passport-jwt-strategy.js';
 app.use(cors())
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/', routes)
 
